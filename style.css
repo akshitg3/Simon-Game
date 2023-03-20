@@ -1,0 +1,57 @@
+html, body {
+    height:100%;
+}
+
+.title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body{
+    background-color:antiquewhite;
+}
+
+button{
+    padding: 100px 100px;
+    border-radius: 50%;
+}
+
+#green{
+    background-color: green;
+}
+
+#red{
+    background-color: red;
+}
+
+#blue{
+    background-color: blue;
+}
+
+#yellow{
+    background-color: yellow;
+}
+
+.button-container{
+    top:20%;
+    width: 10%;
+    position: relative;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-row *{
+    /* display: flex; */
+    /* justify-content: space-evenly; */
+    margin: 10%;
+    margin-right: 60%;
+}
+
+.bottom-row *{
+    margin: 10%;
+    margin-left: 40%;
+    margin-right: 20%;
+}
