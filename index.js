@@ -8,7 +8,7 @@ const buttonMap = new Map(); //color:number
 
 var pointer = 0;
 
-var sequence = [0,1,2,3];
+var sequence = [];
 // sequence.push(1);
 // console.log(sequence);
 
@@ -28,13 +28,15 @@ console.log(buttonMap);
 
 const addToSequence = () =>{
     sequence.push(numberGenerator());
+    animateSequence();
 }
 
 const beginGame = () =>{
-
+    addToSequence();
 }
 
 function timer(ms) { return new Promise(res => setTimeout(res, ms)); }
+
 
 async function animateSequence(){
     // $.each(sequence,(index,value)=>{
@@ -44,17 +46,34 @@ async function animateSequence(){
     //     await timer(2000);
     //     console.log("done")
     // })    
-    for(let i=0;i<sequence.length;i++){
-        // console.log(getColorName(sequence[i]));
-        $(`#${getColorName(sequence[i])}`).addClass('click-animation');
-        await timer(2000);
-        $(`#${getColorName(sequence[i])}`).removeClass('click-animation');
-        console.log("done");
-    }
+    $('button').prop('disabled',true);
+    // for(let i=0;i<sequence.length;i++){
+    //     // console.log(getColorName(sequence[i]));
+    //     $(`#${getColorName(sequence[i])}`).addClass('click-animation');
+    //     await timer(2000);
+    //     $(`#${getColorName(sequence[i])}`).removeClass('click-animation');
+    //     console.log("done");
+    // }
+    $(`#${getColorName(sequence[sequence.length-1])}`).addClass('click-animation');
+    await timer(2000);
+    $(`#${getColorName(sequence[sequence.length-1])}`).removeClass('click-animation');
+
+    $('button').prop('disabled',false);
 }
 
-const checkSequence = (keyPressed) =>{
-
+const checkSequence = (keyPressedNumber) =>{
+    if (buttonMap.get(keyPressedNumber)===sequence[pointer]){
+        console.log("correct");
+        pointer++;
+        if(pointer == sequence.length){
+            pointer = 0;
+            addToSequence();            
+        }
+    }
+    else{
+        $('button').prop('disabled',true);
+        console.log("game over");
+    }
 }
 
 const gameOver = () => {
@@ -69,7 +88,9 @@ const getColorName = function (searchValue) {
 }
 
 $("button").on("click",(event)=>{
-    console.log(event.target.id);
+    // console.log(event.target.id);
+    checkSequence(event.target.id);
+
 });
 
 
@@ -77,4 +98,5 @@ $("button").on("click",(event)=>{
 
 
 // console.log(getColorName(buttonMap,0));
-animateSequence();
+// animateSequence();
+beginGame();
