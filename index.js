@@ -7,7 +7,7 @@
 const buttonMap = new Map(); //color:number
 
 var pointer = 0;
-
+var level = 0;
 var sequence = [];
 // sequence.push(1);
 // console.log(sequence);
@@ -27,12 +27,23 @@ $.each($("button"),(index,value)=>{
 console.log(buttonMap);
 
 const addToSequence = () =>{
+    level++;
+    $('h1').text(`Level ${level}`);
     sequence.push(numberGenerator());
     animateSequence();
 }
 
 const beginGame = () =>{
+    $('.game-text').remove()
+    $(window).off('keydown');
     addToSequence();
+
+    $("button").on("click",(event)=>{
+        // console.log(event.target.id);
+        checkSequence(event.target.id);
+    
+    });
+    
 }
 
 function timer(ms) { return new Promise(res => setTimeout(res, ms)); }
@@ -71,13 +82,19 @@ const checkSequence = (keyPressedNumber) =>{
         }
     }
     else{
-        $('button').prop('disabled',true);
+        gameOver();
         console.log("game over");
     }
 }
 
-const gameOver = () => {
-
+const gameOver = async() => {
+    $('button').prop('disabled',true);
+    $(document.body).addClass('game-over');
+    await timer(100);
+    $(document.body).removeClass('game-over');
+    $(document.body).append("<p class='game-text'>Game Over</p>");
+    $(document.body).append("<p class='game-text'>Press 'R' to start</p>");
+    gameRestart();
 }
 
 const getColorName = function (searchValue) {
@@ -87,16 +104,31 @@ const getColorName = function (searchValue) {
     }
 }
 
-$("button").on("click",(event)=>{
-    // console.log(event.target.id);
-    checkSequence(event.target.id);
 
-});
+function gameStart(){
+    $(window).on("keydown",function(event){
+        if(event.key === 'f'){
+            beginGame();
+        }
+    });
+    $(document.body).append("<p class='game-text'>Press 'F' to start</p>");
+}
+
+function gameRestart(){
+    level = 0;
+    sequence = [];
+    $("button").off("click");
+    $(window).on("keydown",function(event){
+        if(event.key === 'r'){
+            beginGame();
+        }
+    });
+}
 
 
 
-
+gameStart();
 
 // console.log(getColorName(buttonMap,0));
 // animateSequence();
-beginGame();
+// beginGame();

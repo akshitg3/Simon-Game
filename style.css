@@ -46,6 +46,7 @@ button{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 20%;
 }
 
 .left-column *{
@@ -64,5 +65,17 @@ button{
 }
 
 .click-animation{
-    opacity: 50%;
+    opacity: 15%;
+}
+
+.game-text{
+    text-align: center;
+    /* margin-top: 20%; */
+    margin-bottom:5%;
+    font-size: large;
+    font-style: bold;
+}
+
+.game-over{
+    background: red;
 }
